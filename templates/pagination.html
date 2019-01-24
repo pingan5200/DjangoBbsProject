@@ -1,0 +1,66 @@
+<!-- is_paginated是true代表有分页，none代表没分页 -->
+{% if is_paginated %}
+  <nav aria-label="pagination" class="mb-4">
+    <ul class="pagination">
+      <!-- page_obj.number当前分页是第几页 -->
+      {% if page_obj.number > 1 %}
+        <!-- 添加页码跳转链接 -->
+        <li class="page-item">
+          <a class="page-link" href="?page=1">首页</a>
+        </li>
+      {% else %}
+        <!-- 关闭页码跳转链接 -->
+        <li class="page-item disabled">
+          <span class="page-link">首页</span>
+        </li>
+      {% endif %}
+      <!-- page_obj.has_previous当前分页的上一页 -->
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">上一页</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">上一页</span>
+        </li>
+      {% endif %}
+      <!-- paginator.page_range是分页页数范围，for循环所有页数 -->
+      {% for page_num in paginator.page_range %}
+        <!-- 所有的分页页码中等于当前分页页码的关闭跳转链接 -->
+        {% if page_obj.number == page_num %}
+          <li class="page-item active">
+            <span class="page-link">
+              {{ page_num }}
+              <span class="sr-only">(current)</span>
+            </span>
+          </li>
+          <!-- 所有的分页页码中不等于当前分页页码，当前分页的前3页和后3页添加跳转链接 -->
+          {% elif page_num > page_obj.number|add:'-3' and page_num < page_obj.number|add:'3' %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+      <!-- page_obj.has_next当前分页的下一页 -->
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">下一页</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">下一页</span>
+        </li>
+      {% endif %}
+      <!-- paginator.num_pages所有页数 -->
+      {% if page_obj.number != paginator.num_pages %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ paginator.num_pages }}">尾页</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">尾页</span>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}
