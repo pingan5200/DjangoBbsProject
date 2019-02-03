@@ -12,3 +12,5 @@ admin/de8ug123
 - https://python-markdown.github.io/install/
 - https://github.com/sparksuite/simplemde-markdown-editor
 - https://djangopackages.org/grids/g/admin-interface/
+
+需要更换数据库链接
